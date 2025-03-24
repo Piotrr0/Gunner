@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RoomNodeType_CorridorEW
   m_EditorClassIdentifier: 
   roomNodeTypeName: CorridorEW
-  displayInNodeGraphEditor: 1
+  displayInNodeGraphEditor: 0
   isCorridor: 0
   isCorridorNS: 0
   isCorridorEW: 1
