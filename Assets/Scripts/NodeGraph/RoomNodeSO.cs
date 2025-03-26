@@ -88,6 +88,10 @@ namespace NodeGraph
             {
                 ProcessLeftClickDownEvent();
             }
+            else if(currentEvent.button == 1)
+            {
+                ProcessRightClickDownEvent(currentEvent);
+            }
         }
 
         private void ProcessMouseUpEvent(Event currentEvent)
@@ -119,6 +123,11 @@ namespace NodeGraph
             isSelected = !isSelected;
         }
 
+        private void ProcessRightClickDownEvent(Event currentEvent)
+        {
+            roomNodeGraph.SetNodeToDrawConnectionLineFrom(this, currentEvent.mousePosition);
+        }
+
         private void ProcessLeftClickUpEvent()
         {
             if(isLeftClickDragging)
@@ -132,6 +141,19 @@ namespace NodeGraph
             rect.position += delta;
             EditorUtility.SetDirty(this);
         }
+
+        public bool AddChildRoomNodeIDToRoomNode(string childID)
+        {
+            childRoomNodeIDList.Add(childID);
+            return true;
+        }
+
+        public bool AddParentRoomNodeIDToRoomNode(string parentID)
+        {
+            parentRoomNodeIDList.Add(parentID);
+            return true;
+        }
+
 #endif
     }
 }
