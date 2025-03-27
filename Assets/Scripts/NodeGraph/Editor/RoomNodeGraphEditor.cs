@@ -8,6 +8,7 @@ namespace NodeGraph.Editor
     public class RoomNodeGraphEditor : EditorWindow
     {
         private GUIStyle roomNodeStyle;
+        private GUIStyle selectedRoomNodeStyle;
         private static RoomNodeGraphSO currentRoomNodeGraph;
         private static RoomNodeSO currentRoomNode;
         private RoomNodeTypeListSO roomNodeTypeList;
@@ -27,13 +28,37 @@ namespace NodeGraph.Editor
 
         private void OnEnable()
         {
+            Selection.selectionChanged += InspectorSelectionChanged;
+
+
             roomNodeStyle = new GUIStyle();
             roomNodeStyle.normal.background = EditorGUIUtility.Load("node1") as Texture2D;
             roomNodeStyle.normal.textColor = Color.white;
             roomNodeStyle.padding = new RectOffset(NODE_PADDING, NODE_PADDING, NODE_PADDING, NODE_PADDING);
             roomNodeStyle.border = new RectOffset(NODE_BORDER, NODE_BORDER, NODE_BORDER, NODE_BORDER);
 
+            selectedRoomNodeStyle = new GUIStyle();
+            selectedRoomNodeStyle.normal.background = EditorGUIUtility.Load("node1 on") as Texture2D;
+            selectedRoomNodeStyle.normal.textColor = Color.white;
+            selectedRoomNodeStyle.padding = new RectOffset(NODE_PADDING, NODE_PADDING, NODE_PADDING, NODE_PADDING);
+            selectedRoomNodeStyle.border = new RectOffset(NODE_BORDER, NODE_BORDER, NODE_BORDER, NODE_BORDER);
+
             roomNodeTypeList = GameResources.Instance.roomNodeTypeList;
+        }
+
+        private void OnDisable()
+        {
+            Selection.selectionChanged -= InspectorSelectionChanged;
+        }
+
+        private void InspectorSelectionChanged()
+        {
+            RoomNodeGraphSO roomNodeGraph = Selection.activeObject as RoomNodeGraphSO;
+            if(roomNodeGraph != null)
+            {
+                currentRoomNodeGraph = roomNodeGraph;
+                GUI.changed = true;
+            }
         }
 
         [OnOpenAsset(0)]
@@ -163,6 +188,11 @@ namespace NodeGraph.Editor
             {
                 ShowContextMenu(currentEvent.mousePosition);
             }
+            else if (currentEvent.button == 0)
+            {
+                ClearLineDrag();
+                ClearAllSelectedRoomNodes();
+            }
         }
 
         private void ProcessMouseDragEvent(Event currentEvent)
@@ -204,6 +234,18 @@ namespace NodeGraph.Editor
             GUI.changed = true;
         }
 
+        private void ClearAllSelectedRoomNodes()
+        {
+            foreach(RoomNodeSO roomNode in currentRoomNodeGraph.roomNodeList)
+            {
+                if(roomNode.isSelected)
+                {
+                    roomNode.isSelected = false;
+                }
+            }
+            GUI.changed = true;
+        }
+
         private void DragConnectionLine(Vector2 delta)
         {
             currentRoomNodeGraph.linePosition += delta;
@@ -218,6 +260,11 @@ namespace NodeGraph.Editor
 
         private void CreateRoomNode(object mousePositionObject)
         {
+            if(currentRoomNodeGraph.roomNodeList.Count == 0)
+            {
+                CreateRoomNode(new Vector2(200f, 200f), roomNodeTypeList.list.Find(x => x.isEntrance));
+            }
+
             CreateRoomNode(mousePositionObject, roomNodeTypeList.list.Find(x => x.isNone));
         }
 
@@ -238,7 +285,14 @@ namespace NodeGraph.Editor
         {
             foreach (RoomNodeSO roomNode in currentRoomNodeGraph.roomNodeList)
             {
-                roomNode.Draw(roomNodeStyle);
+                if(roomNode.isSelected)
+                {
+                    roomNode.Draw(selectedRoomNodeStyle);
+                }
+                else
+                {
+                    roomNode.Draw(roomNodeStyle);
+                }
             }
 
             GUI.changed = true;
