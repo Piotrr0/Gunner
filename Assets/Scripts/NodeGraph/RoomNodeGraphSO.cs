@@ -26,6 +26,14 @@ namespace NodeGraph
             }
         }
 
+        public RoomNodeSO GetRoomNode(string roomNodeID)
+        {
+            if(roomNodeDictionary.TryGetValue(roomNodeID, out RoomNodeSO roomNode))
+            {
+                return roomNode;
+            }
+            return null;
+        }
 
 #if UNITY_EDITOR
         [HideInInspector] public RoomNodeSO roomNodeToDrawLineFrom = null;

@@ -151,7 +151,38 @@ namespace NodeGraph
 
         public bool AddChildRoomNodeIDToRoomNode(string childID)
         {
-            childRoomNodeIDList.Add(childID);
+            if(IsChildRoomValid(childID))
+            {
+                childRoomNodeIDList.Add(childID);
+                return true;
+            }
+            return false;
+        }
+
+        private bool IsChildRoomValid(string childID)
+        {
+            bool isConnectedBoosNodeAlready = false;
+            foreach (RoomNodeSO roomNode in roomNodeGraph.roomNodeList)
+            {
+                if(roomNode.roomNodeType.isBossRoom && roomNode.parentRoomNodeIDList.Count > 0)
+                {
+                    isConnectedBoosNodeAlready = true;
+                }
+            }
+
+            RoomNodeSO roomNodeToCheck = roomNodeGraph.GetRoomNode(childID);
+            if (roomNodeToCheck.roomNodeType.isBossRoom && isConnectedBoosNodeAlready) return false;
+            if (roomNodeToCheck.roomNodeType.isNone) return false;
+            if (id == childID) return false;
+            if (childRoomNodeIDList.Contains(childID)) return false;
+            if (parentRoomNodeIDList.Contains(childID)) return false;
+            if (roomNodeToCheck.parentRoomNodeIDList.Count > 0) return false;
+            if (roomNodeToCheck.roomNodeType.isCorridor && roomNodeType.isCorridor) return false;
+            if (!roomNodeToCheck.roomNodeType.isCorridor && !roomNodeType.isCorridor) return false;
+            if (roomNodeToCheck.roomNodeType.isCorridor && childRoomNodeIDList.Count >= Settings.MAX_CHILD_CORRIDORS) return false;
+            if (!roomNodeToCheck.roomNodeType.isCorridor && childRoomNodeIDList.Count > 0) return false;
+            if (roomNodeToCheck.roomNodeType.isEntrance) return false;
+
             return true;
         }
 

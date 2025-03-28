@@ -210,8 +210,10 @@ namespace NodeGraph.Editor
                 RoomNodeSO roomNode = IsMouseOverRoomNode(currentEvent);
                 if (roomNode != null)
                 {
-                    currentRoomNodeGraph.roomNodeToDrawLineFrom.AddChildRoomNodeIDToRoomNode(roomNode.id);
-                    roomNode.AddParentRoomNodeIDToRoomNode(currentRoomNodeGraph.roomNodeToDrawLineFrom.id);
+                    if(currentRoomNodeGraph.roomNodeToDrawLineFrom.AddChildRoomNodeIDToRoomNode(roomNode.id))
+                    {
+                        roomNode.AddParentRoomNodeIDToRoomNode(currentRoomNodeGraph.roomNodeToDrawLineFrom.id);
+                    }
                 }
 
                 ClearLineDrag();
@@ -255,7 +257,18 @@ namespace NodeGraph.Editor
         {
             GenericMenu menu = new GenericMenu();
             menu.AddItem(new GUIContent("Create Room Node"), false, CreateRoomNode, mousePosition);
+            menu.AddSeparator("");
+            menu.AddItem(new GUIContent("Select All Room Nodes"), false, SelectAllRoomNodes);
             menu.ShowAsContext();
+        }
+        
+        private void SelectAllRoomNodes()
+        {
+            foreach (RoomNodeSO roomNode in currentRoomNodeGraph.roomNodeList)
+            {
+                roomNode.isSelected = true;
+            }
+            GUI.changed = true;
         }
 
         private void CreateRoomNode(object mousePositionObject)
