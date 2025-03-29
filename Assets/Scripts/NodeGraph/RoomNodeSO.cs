@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using GameManager.GameResources;
+using UnityEditor.Animations;
 
 namespace NodeGraph
 {
@@ -46,6 +47,23 @@ namespace NodeGraph
                 int selected = roomNodeTypeList.list.FindIndex(x => x == roomNodeType);
                 int selection = EditorGUILayout.Popup("", selected, GetRoomNodeTypesToDisplay());
                 roomNodeType = roomNodeTypeList.list[selection];
+
+                if (roomNodeTypeList.list[selected].isCorridor && !roomNodeTypeList.list[selection].isCorridor || !roomNodeTypeList.list[selected].isCorridor && roomNodeTypeList.list[selection].isCorridor || !roomNodeTypeList.list[selected].isBossRoom && roomNodeTypeList.list[selection].isBossRoom)
+                {
+                    if (childRoomNodeIDList.Count > 0)
+                    {
+                        for (int i = 0; i <childRoomNodeIDList.Count; i++)
+                        {
+                            RoomNodeSO childRoomNode = roomNodeGraph.GetRoomNode(childRoomNodeIDList[i]);
+
+                            if (childRoomNode != null)
+                            {
+                                RemoveChildRoomNodeIDFromRoomNode(childRoomNode.id);
+                                childRoomNode.RemoveParentRoomNodeIDFromRoomNode(id);
+                            }
+                        }
+                    }
+                }
             }
 
             if (EditorGUI.EndChangeCheck())
@@ -70,7 +88,7 @@ namespace NodeGraph
 
         public void ProcessEvents(Event currentEvent)
         {
-            switch(currentEvent.type)
+            switch (currentEvent.type)
             {
                 case EventType.MouseDown:
                     ProcessMouseDownEvent(currentEvent);
@@ -91,11 +109,11 @@ namespace NodeGraph
 
         private void ProcessMouseDownEvent(Event currentEvent)
         {
-            if(currentEvent.button == 0)
+            if (currentEvent.button == 0)
             {
                 ProcessLeftClickDownEvent();
             }
-            else if(currentEvent.button == 1)
+            else if (currentEvent.button == 1)
             {
                 ProcessRightClickDownEvent(currentEvent);
             }
@@ -137,7 +155,7 @@ namespace NodeGraph
 
         private void ProcessLeftClickUpEvent()
         {
-            if(isLeftClickDragging)
+            if (isLeftClickDragging)
             {
                 isLeftClickDragging = false;
             }
@@ -151,7 +169,7 @@ namespace NodeGraph
 
         public bool AddChildRoomNodeIDToRoomNode(string childID)
         {
-            if(IsChildRoomValid(childID))
+            if (IsChildRoomValid(childID))
             {
                 childRoomNodeIDList.Add(childID);
                 return true;
@@ -164,7 +182,7 @@ namespace NodeGraph
             bool isConnectedBoosNodeAlready = false;
             foreach (RoomNodeSO roomNode in roomNodeGraph.roomNodeList)
             {
-                if(roomNode.roomNodeType.isBossRoom && roomNode.parentRoomNodeIDList.Count > 0)
+                if (roomNode.roomNodeType.isBossRoom && roomNode.parentRoomNodeIDList.Count > 0)
                 {
                     isConnectedBoosNodeAlready = true;
                 }
@@ -190,6 +208,26 @@ namespace NodeGraph
         {
             parentRoomNodeIDList.Add(parentID);
             return true;
+        }
+
+        public bool RemoveChildRoomNodeIDFromRoomNode(string childID)
+        {
+            if (childRoomNodeIDList.Contains(childID))
+            {
+                childRoomNodeIDList.Remove(childID);
+                return true;
+            }
+            return false;
+        }
+
+        public bool RemoveParentRoomNodeIDFromRoomNode(string parentID)
+        {
+            if (parentRoomNodeIDList.Contains(parentID))
+            {
+                parentRoomNodeIDList.Remove(parentID);
+                return true;
+            }
+            return false;
         }
 
 #endif

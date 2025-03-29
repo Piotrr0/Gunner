@@ -28,7 +28,7 @@ namespace NodeGraph
 
         public RoomNodeSO GetRoomNode(string roomNodeID)
         {
-            if(roomNodeDictionary.TryGetValue(roomNodeID, out RoomNodeSO roomNode))
+            if (roomNodeDictionary.TryGetValue(roomNodeID, out RoomNodeSO roomNode))
             {
                 return roomNode;
             }

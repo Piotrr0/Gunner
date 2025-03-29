@@ -21,35 +21,8 @@ MonoBehaviour:
   roomNodeType: {fileID: 11400000, guid: 230bff3283f7ccd4587436ee1ba6fd89, type: 2}
   rect:
     serializedVersion: 2
-    x: 200
-    y: 200
-    width: 160
-    height: 75
-  isLeftClickDragging: 0
-  isSelected: 0
---- !u!114 &-4122999450460915696
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5e6b1c61b616e944b6f07f77d8a9d7f, type: 3}
-  m_Name: RoomNode
-  m_EditorClassIdentifier: 
-  id: b411a09a-12a9-458e-b507-49d2b49f65b0
-  parentRoomNodeIDList:
-  - 488b7f91-4d5c-4e65-8fee-845c78f824b6
-  childRoomNodeIDList: []
-  roomNodeGraph: {fileID: 11400000}
-  roomNodeTypeList: {fileID: 11400000, guid: 134592f8622027b489b6e2471d98af0b, type: 2}
-  roomNodeType: {fileID: 11400000, guid: 5602416114ea4dd4c8ea4a3851e706d7, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 15
-    y: 203
+    x: 244
+    y: 198
     width: 160
     height: 75
   isLeftClickDragging: 0
@@ -69,33 +42,5 @@ MonoBehaviour:
   roomNodeTypeList: {fileID: 0}
   roomNodeList:
   - {fileID: -4832514926370930251}
-  - {fileID: -4122999450460915696}
-  - {fileID: 7092505796552400614}
   roomNodeToDrawLineFrom: {fileID: 0}
   linePosition: {x: 0, y: 0}
---- !u!114 &7092505796552400614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5e6b1c61b616e944b6f07f77d8a9d7f, type: 3}
-  m_Name: RoomNode
-  m_EditorClassIdentifier: 
-  id: 72805f6e-5452-490d-9d1c-4cbc4ac2ced7
-  parentRoomNodeIDList: []
-  childRoomNodeIDList: []
-  roomNodeGraph: {fileID: 11400000}
-  roomNodeTypeList: {fileID: 11400000, guid: 134592f8622027b489b6e2471d98af0b, type: 2}
-  roomNodeType: {fileID: 11400000, guid: 82610d13f038fcd439b9eede3afa523c, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 70
-    y: 374
-    width: 160
-    height: 75
-  isLeftClickDragging: 0
-  isSelected: 0

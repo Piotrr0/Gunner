@@ -20,9 +20,9 @@ namespace Utilities
             bool error = false;
             int count = 0;
 
-            foreach(var item in enumerableObjectsToCheck)
+            foreach (var item in enumerableObjectsToCheck)
             {
-                if(item == null)
+                if (item == null)
                 {
                     Debug.Log(fieldName + " has null values in object" + worldContextObject.name.ToString());
                     error = true;
@@ -33,7 +33,7 @@ namespace Utilities
                 }
             }
 
-            if(count == 0)
+            if (count == 0)
             {
                 Debug.Log(fieldName + " has no values in object" + worldContextObject.name.ToString());
                 error = true;
