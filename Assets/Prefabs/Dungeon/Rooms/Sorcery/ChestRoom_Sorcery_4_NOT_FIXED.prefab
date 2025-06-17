@@ -4878,7 +4878,7 @@ GameObject:
   - component: {fileID: 8227588318318580144}
   - component: {fileID: 1462120759972737929}
   m_Layer: 12
-  m_Name: ChestRoom_Sorcery_4
+  m_Name: ChestRoom_Sorcery_4_NOT_FIXED
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
